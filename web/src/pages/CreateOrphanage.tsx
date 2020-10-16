@@ -70,6 +70,15 @@ export default function CreateOrphanage() {
     setPreviewImages(selectedImagesPreview)
   }
 
+  function handleDeleteImage(index: number) {
+    var newImages = images.slice(0) 
+    newImages.splice(index, 1)
+    setImages(newImages)
+
+    const selectedImagesPreview = newImages.map(URL.createObjectURL)
+    setPreviewImages(selectedImagesPreview)
+  }
+
   return (
     <div id="page-create-orphanage">
       <SideBar />
@@ -113,8 +122,15 @@ export default function CreateOrphanage() {
               <label htmlFor="images">Fotos</label>
 
               <div className="images-container">
-                {previewImages.map(image => {
-                  return <img key={image} src={image} alt={name} />
+                {previewImages.map((image, index) => {
+                  return (
+                    <div className="img-wrap">
+                      <button type="button" className="delete" onClick={() => handleDeleteImage(index)}>
+                        <FiX size={18} color="#f00" />
+                      </button>
+                      <img key={image} src={image} alt={name} />
+                    </div>
+                  )
                 })}
                 <label htmlFor="image[]" className="new-image">
                   <FiPlus size={24} color="#15b6d6" />
@@ -158,14 +174,14 @@ export default function CreateOrphanage() {
               <div className="button-select">
                 <button 
                   type="button" 
-                  className={open_on_weekends ? "active" : ""} 
+                  className={open_on_weekends ? "sim" : ""} 
                   onClick={()=>setOpenOnWeekends(true)}
                 >
                   Sim
                 </button>
                 <button 
                   type="button" 
-                  className={open_on_weekends ? "" : "active"} 
+                  className={open_on_weekends ? "" : "nao"} 
                   onClick={()=>setOpenOnWeekends(false)}
                 >
                   Não
